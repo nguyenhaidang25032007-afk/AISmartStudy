@@ -30,9 +30,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Topic)
             </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.ContentJson)
+                    @(item.ContentJson != null && item.ContentJson.Length > 100
+                                    ? item.ContentJson.Substring(0, 100) + "..."
+                                    : item.ContentJson)
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
