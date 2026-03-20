@@ -12,5 +12,6 @@ namespace AISmartStudy.Data
 
         public DbSet<StudyPlan> StudyPlans { get; set; }
         public DbSet<Note> Notes { get; set; }
+        public object StudyPlan { get; internal set; }
     }
 }

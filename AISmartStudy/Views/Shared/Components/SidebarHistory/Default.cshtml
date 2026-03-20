@@ -1,0 +1,8 @@
+﻿@model IEnumerable<AISmartStudy.Models.StudyPlan>
+
+@foreach (var item in Model)
+{
+    <a asp-controller="StudyPlans" asp-action="Details" asp-route-id="@item.Id" class="history-item" title="@item.Topic">
+        💬 @item.Topic
+    </a>
+}

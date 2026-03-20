@@ -4,31 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1 class="display-4">@Model.Topic</h1>
 
-<div>
-    <h4>StudyPlan</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Topic)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Topic)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ContentJson)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.Raw(Markdown.ToHtml(Model.ContentJson ?? ""))
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-    </dl>
+<div class="details-view mt-5">
+    @Html.Raw(Markdown.ToHtml(Model.ContentJson ?? ""))
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

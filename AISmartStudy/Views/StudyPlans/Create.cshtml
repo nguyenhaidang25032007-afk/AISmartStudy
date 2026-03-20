@@ -1,43 +1,64 @@
 ﻿@model AISmartStudy.Models.StudyPlan
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Tạo Lộ Trình Mới";
 }
 
-<h1>Create</h1>
+<div class="create-prompt-container text-center" style="margin-top: 10vh;">
+    <h1 class="mb-3" style="font-size: 2.5rem; font-weight: 800; color: #0f172a;">✨ Bạn muốn học gì hôm nay?</h1>
+    <p class="text-muted mb-5" style="font-size: 1.1rem;">Hãy nhập một chủ đề, Trợ lý AI của chúng tôi sẽ thiết kế lộ trình riêng cho bạn.</p>
 
-<h4>StudyPlan</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Topic" class="control-label"></label>
-                <input asp-for="Topic" class="form-control" />
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <form asp-action="Create" id="ai-form">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="input-group input-group-lg mb-3 shadow-sm" style="border-radius: 50px; overflow: hidden; border: 1px solid #e2e8f0; background: #fff;">
+                    <input asp-for="Topic" class="form-control border-0 px-4 py-3" style="box-shadow: none; font-size: 1.1rem;" placeholder="VD: Lập trình C# cơ bản, Tiếng Anh giao tiếp..." autocomplete="off" required />
+
+                    <button type="submit" class="btn btn-ai px-5 border-0" id="submit-btn" style="border-radius: 0; background-color: var(--accent);">
+                        Tạo Lộ Trình 🚀
+                    </button>
+                </div>
                 <span asp-validation-for="Topic" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContentJson" class="control-label"></label>
-                <input asp-for="ContentJson" class="form-control" />
-                <span asp-validation-for="ContentJson" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+
+                <div id="loading-zone" class="mt-5" style="display: none;">
+                    <div class="spinner-border" style="color: var(--accent); width: 3rem; height: 3rem;" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3 text-muted fw-bold" style="animation: pulse 1.5s infinite;">
+                        AI đang suy nghĩ và soạn giáo trình... Bạn đợi chút nhé! ⏳
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <a asp-action="Index" class="action-link text-muted" style="text-decoration: underline;">← Quay lại danh sách</a>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.getElementById('ai-form').addEventListener('submit', function () {
+            // Khi người dùng bấm Enter hoặc click Tạo: Ẩn nút đi, Hiện cái xoay xoay lên
+            document.getElementById('submit-btn').innerHTML = 'Đang xử lý...';
+            document.getElementById('submit-btn').classList.add('disabled');
+            document.getElementById('loading-zone').style.display = 'block';
+        });
+    </script>
+
+    <style>
+        /* Hiệu ứng chữ chớp tắt nhẹ nhàng khi Loading */
+        @@keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
 }
