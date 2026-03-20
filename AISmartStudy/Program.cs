@@ -1,4 +1,5 @@
 using AISmartStudy.Data;
+using AISmartStudy.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace AISmartStudy
@@ -13,7 +14,7 @@ namespace AISmartStudy
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(connectionString));
-
+            builder.Services.AddScoped<GeminiService>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();

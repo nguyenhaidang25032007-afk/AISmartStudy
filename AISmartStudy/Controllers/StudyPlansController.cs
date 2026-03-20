@@ -1,22 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AISmartStudy.Data;
+using AISmartStudy.Models;
+using AISmartStudy.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AISmartStudy.Data;
-using AISmartStudy.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AISmartStudy.Controllers
 {
+    // Nhớ thêm dòng using này ở trên cùng file nhé:
+    // using AISmartStudy.Services;
+
     public class StudyPlansController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly GeminiService _geminiService; // 1. Thêm dòng này
 
-        public StudyPlansController(ApplicationDbContext context)
+        // 2. Thêm GeminiService vào trong ngoặc tròn
+        public StudyPlansController(ApplicationDbContext context, GeminiService geminiService)
         {
             _context = context;
+            _geminiService = geminiService; // 3. Gán giá trị
         }
 
         // GET: StudyPlans
@@ -58,6 +65,10 @@ namespace AISmartStudy.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Gọi AI tạo nội dung dựa vào tên Topic mà bạn vừa nhập trên web
+                studyPlan.ContentJson = await _geminiService.GenerateStudyPlanAsync(studyPlan.Topic);
+                // -------------------------------
+
                 _context.Add(studyPlan);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
